@@ -37,7 +37,10 @@ class HomeScreen extends StatelessWidget {
                     item: ItemCarousel(
                         name: category.name,
                         imageUrl: category.imageUrl,
-                        routeName: '/catalog')))
+                        routeName: '/catalog',
+                      ),
+                      category: category,
+                    ))
                 .toList(),
           ),
           const SectionTitle(title: 'RECOMMENDED'),
