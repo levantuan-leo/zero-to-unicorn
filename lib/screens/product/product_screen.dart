@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce_app/blocs/cart/bloc/cart_bloc.dart';
+import 'package:flutter_ecommerce_app/blocs/wishlist/wishlist_bloc.dart';
 import 'package:flutter_ecommerce_app/models/models.dart';
 import 'package:flutter_ecommerce_app/widgets/widgets.dart';
 
@@ -32,20 +35,41 @@ class ProductScreen extends StatelessWidget {
                         Icons.share,
                         color: Colors.white,
                       )),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.favorite,
-                        color: Colors.white,
-                      )),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white),
-                      onPressed: () {},
-                      child: Text(
-                        "ADD TO CART",
-                        style: Theme.of(context).textTheme.headline3!,
-                      ))
+                  BlocBuilder<WishlistBloc, WishlistState>(
+                      builder: (context, state) {
+                    return IconButton(
+                        onPressed: () {
+                          context
+                              .read<WishlistBloc>()
+                              .add(AddProductToWishlist(product));
+
+                          const snackBar = SnackBar(
+                              content: Text('Added to your Wishlist!'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                        ));
+                  }),
+                  BlocBuilder<CartBloc, CartState>(
+                    builder: (context, state) {
+                      return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white),
+                          onPressed: () {
+                            context
+                                .read<CartBloc>()
+                                .add(AddProductToCart(product));
+
+                            Navigator.pushNamed(context, '/cart');
+                          },
+                          child: Text(
+                            "ADD TO CART",
+                            style: Theme.of(context).textTheme.headline3!,
+                          ));
+                    },
+                  )
                 ],
               )),
         ),
@@ -60,9 +84,9 @@ class ProductScreen extends StatelessWidget {
             items: [
               HeroCarouselCard(
                   item: ItemCarousel(
-                      name: product.name,
-                      imageUrl: product.imageUrl,
-                      routeName: '/product'))
+                name: product.name,
+                imageUrl: product.imageUrl,
+              ))
             ],
           ),
           Padding(
@@ -83,7 +107,7 @@ class ProductScreen extends StatelessWidget {
                       margin: EdgeInsets.all(5.0),
                       width: MediaQuery.of(context).size.width - 10,
                       height: 50,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.black,
                       ),
                       child: Padding(

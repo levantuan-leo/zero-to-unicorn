@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce_app/blocs/cart/bloc/cart_bloc.dart';
 import 'package:flutter_ecommerce_app/models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
@@ -75,13 +77,35 @@ class ProductCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add_circle,
-                              color: Colors.white,
-                            )),
+                      BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (state is CartLoaded) {
+                            return Expanded(
+                              child: IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<CartBloc>()
+                                        .add(AddProductToCart(product));
+
+                                    const snackBar = SnackBar(
+                                        content: Text('Added to your cart!'));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  },
+                                  icon: const Icon(
+                                    Icons.add_circle,
+                                    color: Colors.white,
+                                  )),
+                            );
+                          } else {
+                            return const Text('Something went wrong!');
+                          }
+                        },
                       ),
                       isWishlist
                           ? Expanded(
