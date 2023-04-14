@@ -39,6 +39,8 @@ dependencies:
   flutter_bloc: ^8.1.2
   firebase_core: ^2.9.0
   cloud_firestore: ^4.5.0
+  pay: ^1.1.0
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -64,8 +66,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    # - assets/svgs/
-    # - assets/
+    - assets/svgs/
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

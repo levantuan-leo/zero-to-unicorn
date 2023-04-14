@@ -1,8 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce_app/blocs/cart/bloc/cart_bloc.dart';
-import 'package:flutter_ecommerce_app/blocs/wishlist/wishlist_bloc.dart';
 import 'package:flutter_ecommerce_app/models/models.dart';
 import 'package:flutter_ecommerce_app/widgets/widgets.dart';
 
@@ -22,56 +19,9 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(title: product.name),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.black,
-          child: SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.share,
-                        color: Colors.white,
-                      )),
-                  BlocBuilder<WishlistBloc, WishlistState>(
-                      builder: (context, state) {
-                    return IconButton(
-                        onPressed: () {
-                          context
-                              .read<WishlistBloc>()
-                              .add(AddProductToWishlist(product));
-
-                          const snackBar = SnackBar(
-                              content: Text('Added to your Wishlist!'));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        },
-                        icon: const Icon(
-                          Icons.favorite,
-                          color: Colors.white,
-                        ));
-                  }),
-                  BlocBuilder<CartBloc, CartState>(
-                    builder: (context, state) {
-                      return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white),
-                          onPressed: () {
-                            context
-                                .read<CartBloc>()
-                                .add(AddProductToCart(product));
-
-                            Navigator.pushNamed(context, '/cart');
-                          },
-                          child: Text(
-                            "ADD TO CART",
-                            style: Theme.of(context).textTheme.headline3!,
-                          ));
-                    },
-                  )
-                ],
-              )),
+        bottomNavigationBar: CustomNavBar(
+          screen: routeName,
+          product: product,
         ),
         body: ListView(children: [
           CarouselSlider(
@@ -145,7 +95,7 @@ class ProductScreen extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                       title: Text(
-                        'The eCommerce Series is a journey where we will build a production eCommerce app from scratch using Flutter. The series will take you through the development cycle of an app business from planning to design, development and testing.',
+                        product.description ?? '',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     )

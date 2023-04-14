@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce_app/blocs/cart/bloc/cart_bloc.dart';
-import 'package:flutter_ecommerce_app/models/models.dart';
+import 'package:flutter_ecommerce_app/blocs/cart/cart_bloc.dart';
 
 import '../../widgets/widgets.dart';
 
@@ -20,25 +19,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(title: 'Cart'),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.black,
-          child: SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                    onPressed: () {},
-                    child: Text(
-                      "CHECKOUT",
-                      style: Theme.of(context).textTheme.headline3!,
-                    ),
-                  ),
-                ],
-              )),
-        ),
+        bottomNavigationBar: const CustomNavBar(screen: routeName),
         body: BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
             if (state is CartLoading) {
@@ -195,7 +176,7 @@ class CartScreen extends StatelessWidget {
                 ),
               );
             } else {
-              return const Text('Something went wrong!');
+              return const Text('[Cart]/Something went wrong!');
             }
           },
         ));

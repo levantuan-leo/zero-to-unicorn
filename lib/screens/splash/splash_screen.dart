@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_app/models/models.dart';
-import 'package:flutter_ecommerce_app/widgets/widgets.dart';
 
 class SplashScreen extends StatelessWidget {
   static const String routeName = '/splash';

@@ -12,7 +12,7 @@ TextTheme textTheme() {
       headline1: TextStyle(
           color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
       headline2: TextStyle(
-          color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+          color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
       headline3: TextStyle(
           color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
       headline4: TextStyle(
