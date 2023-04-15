@@ -45,6 +45,11 @@ class MyApp extends StatelessWidget {
               checkoutRepository: CheckoutRepository(),
             ),
           ),
+          BlocProvider(
+            create: (_) => ProductBloc(
+              productRepository: ProductRepository(),
+            )..add(LoadProducts()),
+          )
         ],
         child: MaterialApp(
           title: 'Zero To Unicorn',

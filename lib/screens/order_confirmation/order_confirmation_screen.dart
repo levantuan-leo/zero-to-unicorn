@@ -16,8 +16,8 @@ class OrderConfirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Order Confirmation'),
-      bottomNavigationBar: CustomNavBar(screen: routeName),
+      appBar: const CustomAppBar(title: 'Order Confirmation'),
+      bottomNavigationBar: const CustomNavBar(screen: routeName),
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Column(
@@ -62,7 +62,7 @@ class OrderConfirmation extends StatelessWidget {
                     'Hi Massimo,',
                     style: Theme.of(context).textTheme.headline5,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Thank you for purchasing on Zero To Unicorn.',
                     style: Theme.of(context).textTheme.headline6,
