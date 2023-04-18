@@ -1,15 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
+part 'product_model.g.dart';
+
+@HiveType(typeId: 0)
 class Product extends Equatable {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String name;
+  @HiveField(2)
   final String category;
+  @HiveField(3)
   final String imageUrl;
-  final String? description;
+  @HiveField(4)
   final double price;
+  @HiveField(5)
   final bool isRecommended;
+  @HiveField(6)
   final bool isPopular;
+  @HiveField(7)
+  final String? description;
 
   const Product({
     required this.id,
@@ -34,6 +46,33 @@ class Product extends Equatable {
         isPopular: snap['isPopular']);
 
     return product;
+  }
+
+  static Product fromJson(Map<String, dynamic> json, [String? id]) {
+    Product product = Product(
+      id: id ?? json['id'],
+      name: json['name'],
+      category: json['category'],
+      imageUrl: json['imageUrl'],
+      price: json['price'],
+      isRecommended: json['isRecommended'],
+      isPopular: json['isPopular'],
+      description: json['description'],
+    );
+    return product;
+  }
+
+  Map<String, dynamic> toDocument() {
+    return {
+      'id': id,
+      'name': name,
+      'category': category,
+      'imageUrl': imageUrl,
+      'price': price,
+      'isRecommended': isRecommended,
+      'isPopular': isPopular,
+      'description': description,
+    };
   }
 
   @override

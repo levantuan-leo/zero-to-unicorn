@@ -1,10 +1,29 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_ecommerce_app/models/models.dart';
+
+import '/models/product_model.dart';
 
 class Cart extends Equatable {
   final List<Product> products;
 
   const Cart({this.products = const <Product>[]});
+
+  @override
+  List<Object?> get props => [products];
+
+  Map<String, dynamic> toDocument() {
+    return {
+      'products': products.map((product) => product.toDocument()).toList(),
+    };
+  }
+
+  static Cart fromJson(Map<String, dynamic> json) {
+    Cart cart = Cart(
+      products: (json['products'] as List)
+          .map((product) => Product.fromJson(product))
+          .toList(),
+    );
+    return cart;
+  }
 
   Map productQuantity(products) {
     var quantity = {};
@@ -26,30 +45,29 @@ class Cart extends Equatable {
   double deliveryFee(subtotal) {
     if (subtotal >= 30.0) {
       return 0.0;
+    } else {
+      return 10.0;
     }
-    return 10.0;
+  }
+
+  String freeDelivery(subtotal) {
+    if (subtotal >= 30.0) {
+      return 'You have Free Delivery';
+    } else {
+      double missing = 30.0 - subtotal;
+      return 'Add \$${missing.toStringAsFixed(2)} for FREE Delivery';
+    }
   }
 
   double total(subtotal, deliveryFee) {
     return subtotal + deliveryFee(subtotal);
   }
 
-  String freeDelivery(subtotal) {
-    if (subtotal >= 30.0) {
-      return 'You have Free Delivery';
-    }
-    double missing = 30.0 - subtotal;
-    return 'Add \$${missing.toStringAsFixed(2)} for FREE Delivery';
-  }
+  String get deliveryFeeString => deliveryFee(subtotal).toStringAsFixed(2);
 
   String get subtotalString => subtotal.toStringAsFixed(2);
 
   String get totalString => total(subtotal, deliveryFee).toStringAsFixed(2);
 
-  String get deliveryFeeString => deliveryFee(subtotal).toStringAsFixed(2);
-
   String get freeDeliveryString => freeDelivery(subtotal);
-
-  @override
-  List<Object?> get props => [products];
 }

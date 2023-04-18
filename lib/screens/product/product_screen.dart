@@ -1,29 +1,34 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_app/models/models.dart';
-import 'package:flutter_ecommerce_app/widgets/widgets.dart';
+import '/models/models.dart';
+import '/widgets/widgets.dart';
 
 class ProductScreen extends StatelessWidget {
   static const String routeName = '/product';
-  final Product product;
-
-  const ProductScreen({super.key, required this.product});
 
   static Route route({required Product product}) {
     return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => ProductScreen(product: product));
+      settings: RouteSettings(name: routeName),
+      builder: (context) => ProductScreen(product: product),
+    );
   }
+
+  final Product product;
+
+  const ProductScreen({
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(title: product.name),
-        bottomNavigationBar: CustomNavBar(
-          screen: routeName,
-          product: product,
-        ),
-        body: ListView(children: [
+      appBar: CustomAppBar(title: product.name),
+      bottomNavigationBar: CustomNavBar(
+        screen: routeName,
+        product: product,
+      ),
+      body: ListView(
+        children: [
           CarouselSlider(
             options: CarouselOptions(
               aspectRatio: 1.5,
@@ -31,13 +36,7 @@ class ProductScreen extends StatelessWidget {
               enlargeCenterPage: true,
               enlargeStrategy: CenterPageEnlargeStrategy.height,
             ),
-            items: [
-              HeroCarouselCard(
-                  item: ItemCarousel(
-                name: product.name,
-                imageUrl: product.imageUrl,
-              ))
-            ],
+            items: [HeroCarouselCard(product: product)],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -57,7 +56,7 @@ class ProductScreen extends StatelessWidget {
                       margin: EdgeInsets.all(5.0),
                       width: MediaQuery.of(context).size.width - 10,
                       height: 50,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.black,
                       ),
                       child: Padding(
@@ -117,7 +116,9 @@ class ProductScreen extends StatelessWidget {
                 ),
               ],
             ),
-          )
-        ]));
+          ),
+        ],
+      ),
+    );
   }
 }

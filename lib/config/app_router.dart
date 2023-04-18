@@ -23,9 +23,17 @@ class AppRouter {
       case CheckoutScreen.routeName:
         return CheckoutScreen.route();
       case OrderConfirmation.routeName:
-        return OrderConfirmation.route();
+        return OrderConfirmation.route(
+          checkoutId: settings.arguments as String,
+        );
       case PaymentSelection.routeName:
         return PaymentSelection.route();
+      case ProfileScreen.routeName:
+        return ProfileScreen.route();
+      case LoginScreen.routeName:
+        return LoginScreen.route();
+      case SignUpScreen.routeName:
+        return SignUpScreen.route();
       default:
         return _errorRoute();
     }
@@ -39,7 +47,7 @@ class AppRouter {
           title: const Text('Error'),
         ),
         body: const Center(
-          child: Text('[ErrorRoute]/Something went wrong!'),
+          child: Text('Something went wrong!'),
         ),
       ),
     );
