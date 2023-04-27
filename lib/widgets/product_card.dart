@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
     this.isWishlist = false,
     this.isCart = true,
     this.isSummary = false,
-    this.iconColor = Colors.black,
+    this.iconColor = Colors.red,
     this.fontColor = Colors.black,
   }) : super(key: key);
 
@@ -57,8 +57,8 @@ class ProductCard extends StatelessWidget {
     this.isWishlist = false,
     this.isCart = false,
     this.isSummary = true,
-    this.iconColor = Colors.black,
-    this.fontColor = Colors.black,
+    this.iconColor = Colors.red,
+    this.fontColor = Colors.red,
   }) : super(key: key);
 
   final Product product;
@@ -79,32 +79,39 @@ class ProductCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        if (isCatalog || isWishlist)
+        if (isCatalog || isWishlist) {
           Navigator.pushNamed(
             context,
             '/product',
             arguments: product,
           );
+        }
       },
       child: isCart || isSummary
           ? Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Row(
                 children: [
-                  ProductImage(
-                    adjWidth: 100,
-                    height: height,
-                    product: product,
-                  ),
-                  const SizedBox(width: 10),
                   Expanded(
-                    child: ProductInformation(
-                      product: product,
-                      fontColor: fontColor,
-                      quantity: quantity,
-                      isOrderSummary: isSummary ? true : false,
-                    ),
-                  ),
+                      child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ProductImage(
+                        adjWidth: 100,
+                        height: height,
+                        product: product,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: ProductInformation(
+                          product: product,
+                          fontColor: fontColor,
+                          quantity: quantity,
+                          isOrderSummary: isSummary ? true : false,
+                        ),
+                      ),
+                    ],
+                  )),
                   const SizedBox(width: 10),
                   ProductActions(
                     product: product,
@@ -118,7 +125,7 @@ class ProductCard extends StatelessWidget {
               ),
             )
           : Stack(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.bottomRight,
               children: [
                 ProductImage(
                   adjWidth: adjWidth,
@@ -164,10 +171,13 @@ class ProductImage extends StatelessWidget {
     return Container(
       width: adjWidth,
       height: height,
-      child: Image.network(
-        product.imageUrl,
-        fit: BoxFit.cover,
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0)),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(5.0),
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
+          )),
     );
   }
 }
@@ -257,35 +267,49 @@ class ProductActions extends StatelessWidget {
           );
         }
         if (state is CartLoaded) {
-          IconButton addProduct = IconButton(
-            icon: Icon(
-              Icons.add_circle,
-              color: iconColor,
-            ),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Added to your Cart!'),
-                ),
-              );
-              context.read<CartBloc>().add(AddProductToCart(product));
-            },
-          );
+          IconButton getAddProduct(
+              {IconData? icon = Icons.add_circle,
+              String? message = 'Added to your Cart!'}) {
+            return IconButton(
+              padding: EdgeInsets.all(0),
+              icon: Icon(
+                icon,
+                color: iconColor,
+              ),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(message!),
+                  ),
+                );
+                context.read<CartBloc>().add(AddProductToCart(product));
+              },
+            );
+          }
 
-          IconButton removeProduct = IconButton(
-            icon: Icon(
-              Icons.remove_circle,
-              color: iconColor,
-            ),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Removed from your Cart!'),
-                ),
-              );
-              context.read<CartBloc>().add(RemoveProductFromCart(product));
-            },
-          );
+          ;
+
+          IconButton getRemoveProduct({
+            IconData? icon = Icons.remove_circle,
+          }) {
+            return IconButton(
+              padding: EdgeInsets.all(0),
+              icon: Icon(
+                icon,
+                color: iconColor,
+              ),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Removed from your Cart!'),
+                  ),
+                );
+                context.read<CartBloc>().add(RemoveProductFromCart(product));
+              },
+            );
+          }
+
+          ;
 
           IconButton removeFromWishlist = IconButton(
             icon: Icon(
@@ -306,15 +330,46 @@ class ProductActions extends StatelessWidget {
 
           Text productQuantity = Text(
             '$quantity',
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context)
+                .textTheme
+                .headline4!
+                .copyWith(color: Colors.black),
           );
 
           if (isCatalog) {
-            return Row(children: [addProduct]);
+            return Row(children: [getAddProduct()]);
           } else if (isWishlist) {
-            return Row(children: [addProduct, removeFromWishlist]);
+            return Row(children: [getAddProduct(), removeFromWishlist]);
           } else if (isCart) {
-            return Row(children: [removeProduct, productQuantity, addProduct]);
+            return Row(children: [
+              Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                      )),
+                  child: Center(child: productQuantity)),
+              Column(children: [
+                Container(
+                    constraints: const BoxConstraints(maxHeight: 25),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(5))),
+                    child: getAddProduct(icon: Icons.arrow_drop_up_rounded)),
+                Container(
+                    constraints: const BoxConstraints(maxHeight: 25),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(5))),
+                    child:
+                        getRemoveProduct(icon: Icons.arrow_drop_down_rounded))
+              ])
+            ]);
           } else {
             return const SizedBox();
           }
@@ -341,15 +396,20 @@ class ProductBackground extends StatelessWidget {
     return Container(
       width: adjWidth - 10,
       height: 80,
+      constraints: const BoxConstraints(maxWidth: 250),
       margin: const EdgeInsets.only(bottom: 5),
       alignment: Alignment.bottomCenter,
-      decoration: BoxDecoration(color: Colors.black.withAlpha(50)),
+      decoration: BoxDecoration(
+          color: Colors.red.withAlpha(50),
+          borderRadius: BorderRadius.circular(5.0)),
       child: Container(
         width: adjWidth - 20,
         height: 70,
         margin: const EdgeInsets.only(bottom: 5),
         alignment: Alignment.bottomCenter,
-        decoration: BoxDecoration(color: Colors.black),
+        decoration: BoxDecoration(
+            color: Colors.red.withAlpha(150),
+            borderRadius: BorderRadius.circular(5.0)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(

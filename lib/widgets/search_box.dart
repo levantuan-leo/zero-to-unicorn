@@ -18,9 +18,9 @@ class SearchBox extends StatelessWidget {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
         if (state is SearchLoading) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
-              color: Colors.black,
+              color: Colors.red,
             ),
           );
         }
@@ -39,15 +39,28 @@ class SearchBox extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Search for a Product',
-                          suffixIcon: Icon(
-                            Icons.search,
-                            color: Colors.black,
+                          fillColor: Colors.grey.shade100,
+                          hintText: 'Search for a Product...',
+                          prefixIcon: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            constraints: const BoxConstraints(minWidth: 50),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(5),
+                                    bottomLeft: Radius.circular(5)),
+                                color: Colors.red.withOpacity(0.5),
+                                border: Border.all(color: Colors.grey)),
+                            child: const Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
                           ),
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade200)),
                           contentPadding: const EdgeInsets.all(10),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black45),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                         ),
                         onChanged: (value) {
@@ -63,7 +76,7 @@ class SearchBox extends StatelessWidget {
                 state.products.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.products.length,
                         itemBuilder: (context, index) {
                           return Padding(
@@ -79,10 +92,10 @@ class SearchBox extends StatelessWidget {
             ),
           );
         } else {
-          return Text('Something went wrong.');
+          return const Text('Something went wrong.');
         }
       },
     );
   }
 }
-// 
+//

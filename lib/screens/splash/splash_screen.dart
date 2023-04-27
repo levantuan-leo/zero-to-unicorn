@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
       listener: (context, state) {
         print('Splash screen listener: $state');
         Timer(
-          const Duration(seconds: 1),
+          const Duration(seconds: 2),
           () => Navigator.pushNamed(context, '/'),
         );
       },
@@ -43,7 +43,7 @@ class SplashScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Container(
-              color: Colors.black,
+              color: Colors.red,
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 20,

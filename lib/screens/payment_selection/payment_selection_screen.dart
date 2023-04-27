@@ -30,7 +30,7 @@ class PaymentSelection extends StatelessWidget {
           if (state.status == PaymentStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(
-                color: Colors.black,
+                color: Colors.red,
               ),
             );
           }

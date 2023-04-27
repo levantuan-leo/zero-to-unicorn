@@ -30,7 +30,7 @@ class CatalogScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is ProductLoading) {
             return const Center(
-              child: CircularProgressIndicator(color: Colors.black),
+              child: CircularProgressIndicator(color: Colors.red),
             );
           }
           if (state is ProductLoaded) {

@@ -1,4 +1,3 @@
-import '/blocs/search/search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -8,10 +7,12 @@ import '/widgets/widgets.dart';
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/';
 
+  const HomeScreen({super.key});
+
   static Route route() {
     return MaterialPageRoute(
-      settings: RouteSettings(name: routeName),
-      builder: (_) => HomeScreen(),
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const HomeScreen(),
     );
   }
 
@@ -20,19 +21,21 @@ class HomeScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: CustomAppBar(
+        appBar: const CustomAppBar(
           title: 'Zero To Unicorn',
           automaticallyImplyLeading: false,
         ),
-        bottomNavigationBar: CustomNavBar(screen: routeName),
+        bottomNavigationBar: const CustomNavBar(screen: routeName),
         body: SingleChildScrollView(
           child: Column(
-            children: [
-              _HeroCarousel(),
+            children: const [
+              SizedBox(height: 20),
               SearchBox(),
-              SectionTitle(title: 'RECOMMENDED'),
+              _HeroCarousel(),
+              SizedBox(height: 10),
+              SectionTitle(title: 'Recommended'),
               _ProductCarousel(isPopular: false),
-              SectionTitle(title: 'MOST POPULAR'),
+              SectionTitle(title: 'Most Popular'),
               _ProductCarousel(isPopular: true),
             ],
           ),
@@ -55,7 +58,7 @@ class _ProductCarousel extends StatelessWidget {
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
         if (state is ProductLoading) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -87,7 +90,7 @@ class _ProductCarousel extends StatelessWidget {
             ),
           );
         } else {
-          return Text('Something went wrong.');
+          return const Text('Something went wrong.');
         }
       },
     );
@@ -104,7 +107,7 @@ class _HeroCarousel extends StatelessWidget {
     return BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
         if (state is CategoryLoading) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -121,7 +124,7 @@ class _HeroCarousel extends StatelessWidget {
                 .toList(),
           );
         } else {
-          return Text('Something went wrong.');
+          return const Text('Something went wrong.');
         }
       },
     );

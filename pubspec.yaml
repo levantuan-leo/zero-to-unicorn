@@ -100,5 +100,13 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Avenir
+      fonts:
+        - asset: fonts/AvenirLTStd-Roman.otf
+        - asset: fonts/AvenirLTStd-Book.otf
+          style: italic
+        - asset: fonts/AvenirLTStd-Black.otf
+          weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

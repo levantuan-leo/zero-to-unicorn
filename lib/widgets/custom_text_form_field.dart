@@ -22,18 +22,25 @@ class CustomTextFormField extends StatelessWidget {
             width: 75,
             child: Text(
               title,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.black),
             ),
           ),
           Expanded(
             child: TextFormField(
               initialValue: initialValue,
               onChanged: onChanged,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(3)),
+                    borderSide: BorderSide(color: Colors.grey.shade300)),
                 isDense: true,
-                contentPadding: EdgeInsets.only(left: 10),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
+                contentPadding:
+                    const EdgeInsets.only(left: 10, top: 7, bottom: 8),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
                 ),
               ),
             ),

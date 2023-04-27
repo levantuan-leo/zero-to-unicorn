@@ -13,15 +13,22 @@ class OrderSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Divider(thickness: 2),
+        const Divider(thickness: 2),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('SUBTOTAL', style: Theme.of(context).textTheme.headline5),
+              Text('SUBTOTAL',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .copyWith(color: Colors.black)),
               Text('\$${cart.subtotalString}',
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .copyWith(color: Colors.black)),
             ],
           ),
         ),
@@ -31,13 +38,19 @@ class OrderSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('DELIVERY FEE',
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .copyWith(color: Colors.black)),
               Text('\$${cart.deliveryFeeString}',
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .copyWith(color: Colors.black)),
             ],
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Stack(
           children: <Widget>[
             Container(
@@ -45,15 +58,16 @@ class OrderSummary extends StatelessWidget {
               height: 60,
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
-                color: Colors.black.withAlpha(50),
+                  color: Colors.red.withAlpha(50),
+                  borderRadius: BorderRadius.circular(5)
               ),
             ),
             Container(
-              margin: EdgeInsets.all(5.0),
+              margin: const EdgeInsets.all(5.0),
               width: MediaQuery.of(context).size.width - 10,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.black,
+                  color: Colors.red, borderRadius: BorderRadius.circular(5)
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),

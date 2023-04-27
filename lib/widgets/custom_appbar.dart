@@ -3,23 +3,32 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final bool automaticallyImplyLeading;
+  final bool hideActions;
 
   const CustomAppBar({
     Key? key,
     required this.title,
     this.automaticallyImplyLeading = true,
+    this.hideActions = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.red),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+      backgroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
       automaticallyImplyLeading: automaticallyImplyLeading,
       title: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5), color: Colors.red),
+        constraints:
+            const BoxConstraints(minWidth: 0, maxHeight: double.infinity),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        color: Colors.black,
         child: Text(
           title,
           style: Theme.of(context)
@@ -28,12 +37,13 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               .copyWith(color: Colors.white),
         ),
       ),
-      iconTheme: const IconThemeData(color: Colors.black),
       actions: [
-        IconButton(
+        hideActions
+            ? const SizedBox()
+            : IconButton(
           icon: const Icon(
             Icons.favorite,
-            color: Colors.black,
+                  color: Colors.red,
           ),
           onPressed: () {
             Navigator.pushNamed(
@@ -41,7 +51,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               '/wishlist',
             );
           },
-        ),
+              ),
       ],
     );
   }

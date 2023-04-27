@@ -31,13 +31,13 @@ class OrderConfirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Order Confirmation'),
-      bottomNavigationBar: CustomNavBar(screen: routeName),
+      appBar: const CustomAppBar(title: 'Order Confirmation'),
+      bottomNavigationBar: const CustomNavBar(screen: routeName),
       extendBodyBehindAppBar: true,
       body: BlocBuilder<OrderConfirmationBloc, OrderConfirmationState>(
         builder: (context, state) {
           if (state is OrderConfirmationLoading) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -51,7 +51,7 @@ class OrderConfirmation extends StatelessWidget {
                   Stack(
                     children: [
                       Container(
-                        color: Colors.black,
+                        color: Colors.red,
                         width: double.infinity,
                         height: 300,
                       ),
@@ -88,28 +88,28 @@ class OrderConfirmation extends StatelessWidget {
                           'Hi ${state.checkout.user!.fullName},',
                           style: Theme.of(context).textTheme.headline5,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           'Thank you for purchasing on Zero To Unicorn.',
                           style: Theme.of(context).textTheme.headline6,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
                           'ORDER CODE: $checkoutId',
                           style: Theme.of(context).textTheme.headline5,
                         ),
                         OrderSummary(cart: state.checkout.cart),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
                           'ORDER DETAILS',
                           style: Theme.of(context).textTheme.headline5,
                         ),
-                        Divider(thickness: 2),
-                        SizedBox(height: 5),
+                        const Divider(thickness: 2),
+                        const SizedBox(height: 5),
                         ListView.builder(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: cart.keys.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ProductCard.summary(

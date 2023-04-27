@@ -1,6 +1,7 @@
 part of 'payment_bloc.dart';
 
-enum PaymentMethod { apple_pay, google_pay, credit_card }
+// cod: cash on delivery
+enum PaymentMethod { apple_pay, google_pay, credit_card, cod }
 
 enum PaymentStatus { initial, loading, success, failure }
 

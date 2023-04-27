@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is ProfileLoading) {
             return const Center(
-              child: CircularProgressIndicator(color: Colors.black),
+              child: CircularProgressIndicator(color: Colors.red),
             );
           }
           if (state is ProfileLoaded) {
@@ -126,7 +126,7 @@ class ProfileScreen extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(),
-                        primary: Colors.black,
+                        primary: Colors.red,
                         fixedSize: Size(200, 40),
                       ),
                       child: Text(
@@ -162,7 +162,7 @@ class ProfileScreen extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(),
-                    primary: Colors.black,
+                    primary: Colors.red,
                     fixedSize: Size(200, 40),
                   ),
                   child: Text(

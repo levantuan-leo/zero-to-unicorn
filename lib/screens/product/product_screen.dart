@@ -49,7 +49,7 @@ class ProductScreen extends StatelessWidget {
                       height: 60,
                       alignment: Alignment.bottomCenter,
                       decoration: BoxDecoration(
-                        color: Colors.black.withAlpha(50),
+                        color: Colors.red.withAlpha(50),
                       ),
                     ),
                     Container(
@@ -57,7 +57,7 @@ class ProductScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width - 10,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Colors.red,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),

@@ -15,7 +15,7 @@ class HeroCarouselCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (this.product == null) {
+        if (product == null) {
           Navigator.pushNamed(
             context,
             '/catalog',
@@ -24,7 +24,7 @@ class HeroCarouselCard extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 5,
           right: 5,
           top: 20.0,
@@ -32,18 +32,31 @@ class HeroCarouselCard extends StatelessWidget {
         ),
         child: Stack(
           children: <Widget>[
-            Image.network(
-              product == null ? category!.imageUrl : product!.imageUrl,
-              fit: BoxFit.cover,
-              width: 1000.0,
+            Container(
+              constraints: const BoxConstraints.expand(),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.red, width: 2.0),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5.0),
+                child: Image.network(
+                    product == null ? category!.imageUrl : product!.imageUrl,
+                    fit: BoxFit.cover,
+                    width: 1000.0,
+                    height: 100
+                ),
+              ),
             ),
-            this.product == null
+            product == null
                 ? Positioned(
                     bottom: 0.0,
                     left: 0.0,
                     right: 0.0,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
+                        borderRadius:
+                            BorderRadius.vertical(bottom: Radius.circular(5.0)),
                         gradient: LinearGradient(
                           colors: [
                             Color.fromARGB(200, 0, 0, 0),
@@ -53,21 +66,21 @@ class HeroCarouselCard extends StatelessWidget {
                           end: Alignment.topCenter,
                         ),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 10.0,
                         horizontal: 20.0,
                       ),
                       child: Text(
                         product == null ? category!.name : product!.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ],
         ),
       ),

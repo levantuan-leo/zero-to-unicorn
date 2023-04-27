@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(),
-                primary: Colors.black,
+                primary: Colors.red,
                 fixedSize: Size(200, 40),
               ),
               child: Text(
@@ -103,7 +103,7 @@ class _GoogleLoginButton extends StatelessWidget {
       child: Text(
         'Sign In with Google',
         style: Theme.of(context).textTheme.headline4!.copyWith(
-              color: Colors.black,
+              color: Colors.red,
             ),
       ),
     );

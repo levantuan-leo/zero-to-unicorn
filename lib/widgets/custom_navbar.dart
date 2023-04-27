@@ -20,16 +20,17 @@ class CustomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: Colors.black,
-      child: Container(
+      elevation: 3,
+      color: Colors.red,
+      child: SizedBox(
         height: 70,
         child: (screen == '/product')
             ? AddToCartNavBar(product: product!)
             : (screen == '/cart')
-                ? GoToCheckoutNavBar()
+                ? const GoToCheckoutNavBar()
                 : (screen == '/checkout')
-                    ? OrderNowNavBar()
-                    : HomeNavBar(),
+                    ? const OrderNowNavBar()
+                    : const HomeNavBar(),
       ),
     );
   }
@@ -154,8 +155,9 @@ class GoToCheckoutNavBar extends StatelessWidget {
             Navigator.pushNamed(context, '/checkout');
           },
           style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            shape: RoundedRectangleBorder(),
+            backgroundColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           ),
           child: Text(
             'GO TO CHECKOUT',

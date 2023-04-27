@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
@@ -21,7 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required UserRepository userRepository,
   })  : _authRepository = authRepository,
         _userRepository = userRepository,
-        super(AuthState.unknown()) {
+        super(const AuthState.unknown()) {
     on<AuthUserChanged>(_onAuthUserChanged);
 
     _authUserSubscription = _authRepository.user.listen((authUser) {
@@ -43,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     event.authUser != null
         ? emit(AuthState.authenticated(
             authUser: event.authUser!, user: event.user!))
-        : emit(AuthState.unauthenticated());
+        : emit(const AuthState.unauthenticated());
   }
 
   @override
