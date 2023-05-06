@@ -36,6 +36,18 @@ class SignUpScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Create An Account",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline2!
+                                .copyWith(color: Colors.black),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
                         _UserInput(
                           labelText: 'Email',
                           onChanged: (value) {
@@ -44,7 +56,6 @@ class SignUpScreen extends StatelessWidget {
                                 );
                           },
                         ),
-                        const SizedBox(height: 10),
                         _UserInput(
                           labelText: 'Full Name',
                           onChanged: (value) {
@@ -53,7 +64,6 @@ class SignUpScreen extends StatelessWidget {
                                 );
                           },
                         ),
-                        const SizedBox(height: 10),
                         _UserInput(
                           labelText: 'Country',
                           onChanged: (value) {
@@ -62,7 +72,6 @@ class SignUpScreen extends StatelessWidget {
                                 );
                           },
                         ),
-                        const SizedBox(height: 10),
                         _UserInput(
                           labelText: 'City',
                           onChanged: (value) {
@@ -71,7 +80,6 @@ class SignUpScreen extends StatelessWidget {
                                 );
                           },
                         ),
-                        const SizedBox(height: 10),
                         _UserInput(
                           labelText: 'Address',
                           onChanged: (value) {
@@ -89,22 +97,32 @@ class SignUpScreen extends StatelessWidget {
                           },
                         ),
                         _PasswordInput(),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             context.read<SignUpCubit>().signUpWithCredentials();
                           },
                           style: ElevatedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)),
                             backgroundColor: Colors.red,
-                            fixedSize: const Size(200, 40),
+                            fixedSize: const Size(500, 50),
                           ),
-                          child: Text(
-                            'SignUp',
-                            style:
-                                Theme.of(context).textTheme.headline4!.copyWith(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sign Up',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline4!
+                                    .copyWith(
                                       color: Colors.white,
                                     ),
+                              ),
+                              const SizedBox(width: 5.0),
+                              const Icon(Icons.arrow_forward_ios_rounded)
+                            ],
                           ),
                         ),
                       ],
@@ -134,9 +152,10 @@ class _UserInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        return TextField(
+        return CustomTextFormField(
+          placeholder: labelText,
           onChanged: onChanged,
-          decoration: InputDecoration(labelText: labelText),
+
         );
       },
     );
@@ -146,11 +165,11 @@ class _UserInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return CustomTextFormField(
       onChanged: (password) {
         context.read<SignUpCubit>().passwordChanged(password);
       },
-      decoration: const InputDecoration(labelText: 'Password'),
+      placeholder: "Password",
       obscureText: true,
     );
   }

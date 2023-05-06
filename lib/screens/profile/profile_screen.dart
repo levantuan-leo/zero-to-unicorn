@@ -9,9 +9,11 @@ import '/widgets/widgets.dart';
 class ProfileScreen extends StatelessWidget {
   static const String routeName = '/profile';
 
+  const ProfileScreen({super.key});
+
   static Route route() {
     return MaterialPageRoute(
-      settings: RouteSettings(name: routeName),
+      settings: const RouteSettings(name: routeName),
       builder: (context) => BlocProvider<ProfileBloc>(
         create: (context) => ProfileBloc(
           authBloc: BlocProvider.of<AuthBloc>(context),
@@ -19,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
         )..add(
             LoadProfile(context.read<AuthBloc>().state.authUser),
           ),
-        child: ProfileScreen(),
+        child: const ProfileScreen(),
       ),
     );
   }
@@ -125,8 +127,8 @@ class ProfileScreen extends StatelessWidget {
                         context.read<AuthRepository>().signOut();
                       },
                       style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(),
-                        primary: Colors.red,
+                        shape: const RoundedRectangleBorder(),
+                        backgroundColor: Colors.red,
                         fixedSize: Size(200, 40),
                       ),
                       child: Text(
@@ -146,12 +148,15 @@ class ProfileScreen extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: Center(
                     child: Text(
                       'You are not logged in!',
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4!
+                          .copyWith(color: Colors.black),
                     ),
                   ),
                 ),
@@ -161,8 +166,8 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.pushNamed(context, '/login');
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(),
-                    primary: Colors.red,
+                    shape: const RoundedRectangleBorder(),
+                    backgroundColor: Colors.red,
                     fixedSize: Size(200, 40),
                   ),
                   child: Text(
@@ -178,9 +183,9 @@ class ProfileScreen extends StatelessWidget {
                     context.read<AuthRepository>().signOut();
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(),
-                    primary: Colors.white,
-                    fixedSize: Size(200, 40),
+                    shape: const RoundedRectangleBorder(),
+                    backgroundColor: Colors.white,
+                    fixedSize: const Size(200, 40),
                   ),
                   child: Text(
                     'SignUp',
@@ -190,7 +195,7 @@ class ProfileScreen extends StatelessWidget {
               ],
             );
           } else {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
         },
       ),
