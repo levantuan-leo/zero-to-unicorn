@@ -78,7 +78,8 @@ class CartScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   SizedBox(
                     height: 400,
-                    child: ListView.builder(
+                    child: state.cart.products.isNotEmpty
+                        ? ListView.builder(
                       itemCount: cart.keys.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ProductCard.cart(
@@ -86,7 +87,10 @@ class CartScreen extends StatelessWidget {
                           quantity: cart.values.elementAt(index),
                         );
                       },
-                    ),
+                          )
+                        : const EmptyData(
+                            title: "Your Cart is empty!", hideAction: true
+                        ),
                   ),
                   OrderSummary(cart: state.cart),
                 ],

@@ -77,7 +77,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
           add(UpdateCheckout(checkout));
         }
         if (state.status == PaymentStatus.success) {
-          add(ConfirmCheckout(true));
+          add(const ConfirmCheckout(true));
         }
       },
     );
@@ -87,7 +87,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     UpdateCheckout event,
     Emitter<CheckoutState> emit,
   ) {
-    if (this.state is CheckoutLoaded) {
+    if (state is CheckoutLoaded) {
       emit(
         CheckoutLoaded(checkout: event.checkout),
       );
@@ -98,12 +98,14 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     ConfirmCheckout event,
     Emitter<CheckoutState> emit,
   ) async {
-    if (this.state is CheckoutLoaded) {
+    if (state is CheckoutLoaded) {
       try {
         final state = this.state as CheckoutLoaded;
-        Checkout checkout = state.checkout.copyWith(isPaymentSuccessful: true);
+        Checkout checkout = state.checkout.copyWith(
+            isPaymentSuccessful: event.isPaymentSuccessful,
+            isOrderSuccessful: true);
         String checkoutId =
-            await _checkoutRepository.addCheckout(state.checkout);
+            await _checkoutRepository.addCheckout(checkout);
         emit(CheckoutLoaded(checkout: checkout.copyWith(id: checkoutId)));
       } catch (_) {}
     }

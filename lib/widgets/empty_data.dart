@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class EmptyData extends StatelessWidget {
   final String? title;
+  final bool hideAction;
 
-  const EmptyData({super.key, this.title});
+  const EmptyData({super.key, this.title, this.hideAction = false});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +12,10 @@ class EmptyData extends StatelessWidget {
         body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Center(
+        Center(
           child: Image(
-            image: AssetImage('assets/images/logo.png'),
+            color: Colors.red.withOpacity(0.5),
+            image: const AssetImage('assets/images/logo.png'),
             width: 125,
             height: 125,
           ),
@@ -26,7 +28,9 @@ class EmptyData extends StatelessWidget {
               ),
         ),
         const SizedBox(height: 15),
-        ElevatedButton(
+        hideAction
+            ? const SizedBox()
+            : ElevatedButton(
           onPressed: () {},
           style: const ButtonStyle(
               elevation: MaterialStatePropertyAll(0),

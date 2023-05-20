@@ -17,8 +17,8 @@ import '/simple_bloc_observer.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Stripe.publishableKey = stripePublishableKey;
-  // await Stripe.instance.applySettings();
+  Stripe.publishableKey = stripePublishableKey;
+  await Stripe.instance.applySettings();
   await Hive.initFlutter();
   Hive.registerAdapter(ProductAdapter());
   Bloc.observer = SimpleBlocObserver();
@@ -57,10 +57,12 @@ class MyApp extends StatelessWidget {
               ),
             ),
             BlocProvider(
-              create: (_) => CartBloc()..add(StartCart()),
+              create: (_) => PaymentBloc()..add(StartPayment()),
             ),
             BlocProvider(
-              create: (_) => PaymentBloc()..add(StartPayment()),
+              create: (context) =>
+                  CartBloc(paymentBloc: context.read<PaymentBloc>())
+                    ..add(StartCart()),
             ),
             BlocProvider(
               create: (context) => CheckoutBloc(

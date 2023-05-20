@@ -8,7 +8,7 @@ class ProductScreen extends StatelessWidget {
 
   static Route route({required Product product}) {
     return MaterialPageRoute(
-      settings: RouteSettings(name: routeName),
+      settings: const RouteSettings(name: routeName),
       builder: (context) => ProductScreen(product: product),
     );
   }
@@ -16,6 +16,7 @@ class ProductScreen extends StatelessWidget {
   final Product product;
 
   const ProductScreen({
+    super.key,
     required this.product,
   });
 
@@ -50,14 +51,16 @@ class ProductScreen extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       decoration: BoxDecoration(
                         color: Colors.red.withAlpha(50),
+                          borderRadius: BorderRadius.circular(5.0)
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.all(5.0),
+                      margin: const EdgeInsets.all(5.0),
                       width: MediaQuery.of(context).size.width - 10,
                       height: 50,
                       decoration: BoxDecoration(
                         color: Colors.red,
+                          borderRadius: BorderRadius.circular(5.0)
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -89,13 +92,19 @@ class ProductScreen extends StatelessWidget {
                   initiallyExpanded: true,
                   title: Text(
                     "Product Information",
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(color: Colors.black),
                   ),
                   children: <Widget>[
                     ListTile(
                       title: Text(
                         product.description ?? '',
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .copyWith(color: Colors.black),
                       ),
                     )
                   ],
@@ -103,13 +112,19 @@ class ProductScreen extends StatelessWidget {
                 ExpansionTile(
                   title: Text(
                     "Delivery Information",
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3!
+                        .copyWith(color: Colors.black),
                   ),
                   children: <Widget>[
                     ListTile(
                       title: Text(
                         'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.',
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .copyWith(color: Colors.black),
                       ),
                     )
                   ],

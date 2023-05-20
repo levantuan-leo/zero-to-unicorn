@@ -7,3 +7,4 @@ export 'wishlist/wishlist_bloc.dart';
 export 'payment/payment_bloc.dart';
 export 'profile/profile_bloc.dart';
 export 'search/search_bloc.dart';
+export 'receipt/receipt_bloc.dart';

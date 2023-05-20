@@ -11,14 +11,34 @@ class Cart extends Equatable {
   List<Object?> get props => [products];
 
   Map<String, dynamic> toDocument() {
+    Map cartMap = productQuantity(this.products);
+    Map<String, dynamic> products = {};
+    for (Product element in cartMap.keys) {
+      Map<String, dynamic> product = {};
+      product['product'] = element.toDocument();
+      product['quantity'] = cartMap[element];
+      products[element.id] = product;
+    }
+
     return {
-      'products': products.map((product) => product.toDocument()).toList(),
+      'products': products,
+      'deliveryFee': deliveryFeeString,
+      'subtotal': subtotalString,
+      'total': totalString
     };
   }
 
   static Cart fromJson(Map<String, dynamic> json) {
+    Map productsMap = (json['products'] as Map);
+    List productsList = [];
+    for (var key in productsMap.keys) {
+      for (var i = 0; i < productsMap[key]['quantity']; i++) {
+        productsList.add(productsMap[key]['product']);
+      }
+    }
     Cart cart = Cart(
-      products: (json['products'] as List)
+      products:
+          productsList
           .map((product) => Product.fromJson(product))
           .toList(),
     );

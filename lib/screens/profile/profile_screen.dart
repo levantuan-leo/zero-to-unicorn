@@ -168,10 +168,10 @@ class ProfileScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(),
                     backgroundColor: Colors.red,
-                    fixedSize: Size(200, 40),
+                    fixedSize: const Size(200, 40),
                   ),
                   child: Text(
-                    'Login',
+                    'Log In',
                     style: Theme.of(context).textTheme.headline4!.copyWith(
                           color: Colors.white,
                         ),
@@ -188,7 +188,7 @@ class ProfileScreen extends StatelessWidget {
                     fixedSize: const Size(200, 40),
                   ),
                   child: Text(
-                    'SignUp',
+                    'Sign Up',
                     style: Theme.of(context).textTheme.headline4,
                   ),
                 ),

@@ -20,6 +20,8 @@ class AppRouter {
         return CatalogScreen.route(category: settings.arguments as Category);
       case WishlistScreen.routeName:
         return WishlistScreen.route();
+      case ReceiptScreen.routeName:
+        return ReceiptScreen.route();
       case CheckoutScreen.routeName:
         return CheckoutScreen.route();
       case OrderConfirmation.routeName:

@@ -23,6 +23,15 @@ class CheckoutRepository extends BaseCheckoutRepository {
         await _firebaseFirestore.collection('checkout').doc(checkoutId).get();
 
     return Checkout.fromJson(doc.data()!, doc.id);
-    ;
+  }
+
+  @override
+  Stream<List<Checkout>> getAllCheckoutByUser(String userId) {
+    return _firebaseFirestore
+        .collection('checkout')
+        .where('user.id', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Checkout.fromSnapshot(doc)).toList());
   }
 }

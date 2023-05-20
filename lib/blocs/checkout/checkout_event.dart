@@ -10,7 +10,7 @@ abstract class CheckoutEvent extends Equatable {
 class UpdateCheckout extends CheckoutEvent {
   final Checkout checkout;
 
-  UpdateCheckout(this.checkout);
+  const UpdateCheckout(this.checkout);
 
   @override
   List<Object?> get props => [checkout];
@@ -19,7 +19,7 @@ class UpdateCheckout extends CheckoutEvent {
 class ConfirmCheckout extends CheckoutEvent {
   final bool isPaymentSuccessful;
 
-  ConfirmCheckout(this.isPaymentSuccessful);
+  const ConfirmCheckout(this.isPaymentSuccessful);
 
   @override
   List<Object?> get props => [isPaymentSuccessful];

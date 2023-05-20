@@ -26,7 +26,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     LoadSearch event,
     Emitter<SearchState> emit,
   ) {
-    emit(SearchLoaded());
+    emit(const SearchLoaded());
   }
 
   void _onSearchProduct(

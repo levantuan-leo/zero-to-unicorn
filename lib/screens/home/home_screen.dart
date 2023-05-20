@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_ecommerce_app/models/firebase_dynamic_link.dart';
 import '/blocs/blocs.dart';
 import '/widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String routeName = '/';
 
   const HomeScreen({super.key});
@@ -17,6 +18,17 @@ class HomeScreen extends StatelessWidget {
   }
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    FirebaseDynamicLink.initDynamicLink(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
@@ -25,7 +37,7 @@ class HomeScreen extends StatelessWidget {
           title: 'Zero To Unicorn',
           automaticallyImplyLeading: false,
         ),
-        bottomNavigationBar: const CustomNavBar(screen: routeName),
+        bottomNavigationBar: const CustomNavBar(screen: HomeScreen.routeName),
         body: SingleChildScrollView(
           child: Column(
             children: const [

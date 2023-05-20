@@ -12,7 +12,7 @@ class CheckoutLoading extends CheckoutState {}
 class CheckoutLoaded extends CheckoutState {
   final Checkout checkout;
 
-  CheckoutLoaded({
+  const CheckoutLoaded({
     required this.checkout,
   });
 

@@ -10,7 +10,7 @@ abstract class OrderConfirmationEvent extends Equatable {
 class LoadOrderConfirmation extends OrderConfirmationEvent {
   final String checkoutId;
 
-  LoadOrderConfirmation({required this.checkoutId});
+  const LoadOrderConfirmation({required this.checkoutId});
 
   @override
   List<Object> get props => [checkoutId];

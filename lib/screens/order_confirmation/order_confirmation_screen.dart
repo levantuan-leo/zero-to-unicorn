@@ -86,23 +86,50 @@ class OrderConfirmation extends StatelessWidget {
                       children: [
                         Text(
                           'Hi ${state.checkout.user!.fullName},',
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(color: Colors.black),
                         ),
                         const SizedBox(height: 10),
-                        Text(
-                          'Thank you for purchasing on Zero To Unicorn.',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
+                        RichText(
+                            text: TextSpan(
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6!
+                              .copyWith(color: Colors.black),
+                          children: const <TextSpan>[
+                            TextSpan(text: 'Thank you for purchasing on '),
+                            TextSpan(
+                                text: 'Zero To Unicorn',
+                                style: TextStyle(color: Colors.red)),
+                          ],
+                        )),
                         const SizedBox(height: 20),
-                        Text(
-                          'ORDER CODE: $checkoutId',
-                          style: Theme.of(context).textTheme.headline5,
-                        ),
+                        RichText(
+                            text: TextSpan(
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(color: Colors.black),
+                          children: <TextSpan>[
+                            const TextSpan(
+                                text: 'ORDER CODE: ',
+                                style:
+                                    TextStyle(fontWeight: FontWeight.normal)),
+                            TextSpan(
+                              text: checkoutId,
+                            ),
+                          ],
+                        )),
                         OrderSummary(cart: state.checkout.cart),
                         const SizedBox(height: 20),
                         Text(
                           'ORDER DETAILS',
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(color: Colors.black),
                         ),
                         const Divider(thickness: 2),
                         const SizedBox(height: 5),
@@ -125,7 +152,7 @@ class OrderConfirmation extends StatelessWidget {
               ),
             );
           } else {
-            return Text('Something went wrong.');
+            return const Text('Something went wrong.');
           }
         },
       ),

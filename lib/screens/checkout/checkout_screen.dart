@@ -14,7 +14,7 @@ class CheckoutScreen extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (context) => CheckoutScreen(),
+      builder: (context) => const CheckoutScreen(),
     );
   }
 
@@ -29,7 +29,9 @@ class CheckoutScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: BlocConsumer<CheckoutBloc, CheckoutState>(
               listener: ((context, state) {
-                if ((state as CheckoutLoaded).checkout.isPaymentSuccessful) {
+                if ((state as CheckoutLoaded).checkout.isOrderSuccessful) {
+                  print(
+                      'Payment Status: ${state.checkout.isPaymentSuccessful}');
                   Navigator.pushNamed(
                     context,
                     OrderConfirmation.routeName,

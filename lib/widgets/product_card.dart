@@ -58,7 +58,7 @@ class ProductCard extends StatelessWidget {
     this.isCart = false,
     this.isSummary = true,
     this.iconColor = Colors.red,
-    this.fontColor = Colors.red,
+    this.fontColor = Colors.black,
   }) : super(key: key);
 
   final Product product;

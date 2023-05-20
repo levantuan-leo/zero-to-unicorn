@@ -57,6 +57,7 @@ class User extends Equatable {
 
   Map<String, Object> toDocument() {
     return {
+      'id': id ?? '',
       'fullName': fullName,
       'email': email,
       'address': address,

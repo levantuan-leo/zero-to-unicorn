@@ -35,54 +35,57 @@ class PaymentSelection extends StatelessWidget {
             );
           }
           if (state.status == PaymentStatus.initial) {
-            // stripe.CardFormEditController controller =
-            //     stripe.CardFormEditController();
+            stripe.CardFormEditController controller =
+                stripe.CardFormEditController();
 
             return ListView(
               padding: const EdgeInsets.all(20.0),
               children: [
                 Text(
                   'Add your Credit Card Details',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(color: Colors.black),
                 ),
                 const SizedBox(height: 10),
-                // stripe.CardFormField(controller: controller),
+                stripe.CardFormField(controller: controller),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
                   onPressed: () async {
-                    // if (controller.details.complete) {
-                    //   final stripePaymentMethod =
-                    //       await stripe.Stripe.instance.createPaymentMethod(
-                    //     params: stripe.PaymentMethodParams.card(
-                    //       paymentMethodData: stripe.PaymentMethodData(
-                    //         billingDetails: stripe.BillingDetails(
-                    //           email: (context.read<CheckoutBloc>().state
-                    //                   as CheckoutLoaded)
-                    //               .checkout
-                    //               .user!
-                    //               .email,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   );
-                    //   if (context.mounted) {
-                    //     context.read<PaymentBloc>().add(
-                    //           SelectPaymentMethod(
-                    //             paymentMethod: PaymentMethod.credit_card,
-                    //             paymentMethodId: stripePaymentMethod.id,
-                    //           ),
-                    //         );
-                    //     Navigator.pop(context);
-                    //   }
-                    // } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text('The form is not complete.'),
-                    //     ),
-                    //   );
-                    // }
+                    if (controller.details.complete) {
+                      final stripePaymentMethod =
+                          await stripe.Stripe.instance.createPaymentMethod(
+                        params: stripe.PaymentMethodParams.card(
+                          paymentMethodData: stripe.PaymentMethodData(
+                            billingDetails: stripe.BillingDetails(
+                              email: (context.read<CheckoutBloc>().state
+                                      as CheckoutLoaded)
+                                  .checkout
+                                  .user!
+                                  .email,
+                            ),
+                          ),
+                        ),
+                      );
+                      if (context.mounted) {
+                        context.read<PaymentBloc>().add(
+                              SelectPaymentMethod(
+                                paymentMethod: PaymentMethod.credit_card,
+                                paymentMethodId: stripePaymentMethod.id,
+                              ),
+                            );
+                        Navigator.pop(context);
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('The form is not complete.'),
+                        ),
+                      );
+                    }
                   },
                   child: Text(
                     'Pay with Credit Card',
@@ -92,7 +95,10 @@ class PaymentSelection extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text(
                   'Choose a different payment method',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(color: Colors.black),
                 ),
                 const SizedBox(height: 10),
                 Platform.isIOS
@@ -123,11 +129,28 @@ class PaymentSelection extends StatelessWidget {
                           Navigator.pop(context);
                         },
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                    onPressed: () {
+                      context.read<PaymentBloc>().add(
+                            const SelectPaymentMethod(
+                              paymentMethod: PaymentMethod.cod,
+                            ),
+                          );
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Pay with COD',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(color: Colors.white),
+                    ))
               ],
             );
           } else {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
         },
       ),

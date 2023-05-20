@@ -28,9 +28,18 @@ class CreatePaymentIntent extends PaymentEvent {
 
   const CreatePaymentIntent({
     required this.paymentMethodId,
-    required this.amount,
+    required this.amount
   });
 
   @override
   List<Object?> get props => [paymentMethodId, amount];
+}
+
+class ConfirmPaymentIntent extends PaymentEvent {
+  final String clientSecret;
+
+  const ConfirmPaymentIntent({required this.clientSecret});
+
+  @override
+  List<Object> get props => [clientSecret];
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/widgets/widgets.dart';
@@ -48,19 +49,25 @@ class HomeNavBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
-          icon: Icon(Icons.home, color: Colors.white),
+          icon: const Icon(Icons.home, color: Colors.white),
           onPressed: () {
             Navigator.pushNamed(context, '/');
           },
         ),
         IconButton(
-          icon: Icon(Icons.shopping_cart, color: Colors.white),
+          icon: const Icon(Icons.receipt, color: Colors.white),
+          onPressed: () {
+            Navigator.pushNamed(context, '/receipts');
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.shopping_cart, color: Colors.white),
           onPressed: () {
             Navigator.pushNamed(context, '/cart');
           },
         ),
         IconButton(
-          icon: Icon(Icons.person, color: Colors.white),
+          icon: const Icon(Icons.person, color: Colors.white),
           onPressed: () {
             Navigator.pushNamed(context, '/profile');
           },
@@ -84,36 +91,68 @@ class AddToCartNavBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
-          icon: Icon(Icons.share, color: Colors.white),
-          onPressed: () {},
+          icon: const Icon(Icons.share, color: Colors.white),
+          onPressed: () async {
+            String generatedDeepLink =
+                await FirebaseDynamicLink.createDynamicLink(true, product);
+            print(generatedDeepLink);
+            await Share.share(generatedDeepLink, subject: product.name);
+          },
         ),
         BlocBuilder<WishlistBloc, WishlistState>(
           builder: (context, state) {
             if (state is WishlistLoading) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             if (state is WishlistLoaded) {
               return IconButton(
-                icon: Icon(Icons.favorite, color: Colors.white),
+                icon: state.wishlist.isWishlist(product)
+                    ? const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        shadows: [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(
+                              1.0,
+                              1.0,
+                            ),
+                            blurRadius: 5.0,
+                            spreadRadius: 2.0,
+                          )
+                        ],
+                      )
+                    : const Icon(Icons.favorite, color: Colors.white),
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Added to your Wishlist!'),
-                    ),
-                  );
-                  context
-                      .read<WishlistBloc>()
-                      .add(AddProductToWishlist(product));
+                  if (state.wishlist.isWishlist(product)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Removed to your Wishlist!'),
+                      ),
+                    );
+                    context
+                        .read<WishlistBloc>()
+                        .add(RemoveProductFromWishlist(product));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Added to your Wishlist!'),
+                      ),
+                    );
+                    context
+                        .read<WishlistBloc>()
+                        .add(AddProductToWishlist(product));
+                  }
                 },
               );
             }
-            return Text('Something went wrong!');
+            return const Text('Something went wrong!');
           },
         ),
         BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
             if (state is CartLoading) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             if (state is CartLoaded) {
               return ElevatedButton(
@@ -122,8 +161,9 @@ class AddToCartNavBar extends StatelessWidget {
                   Navigator.pushNamed(context, '/cart');
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  shape: RoundedRectangleBorder(),
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0)),
                 ),
                 child: Text(
                   'ADD TO CART',
@@ -131,7 +171,7 @@ class AddToCartNavBar extends StatelessWidget {
                 ),
               );
             }
-            return Text('Something went wrong!');
+            return const Text('Something went wrong!');
           },
         ),
       ],
@@ -150,20 +190,31 @@ class GoToCheckoutNavBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/checkout');
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          ),
-          child: Text(
-            'GO TO CHECKOUT',
-            style: Theme.of(context).textTheme.headline3,
-          ),
-        ),
+        BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+          if (state is CartLoading) {
+            return const CircularProgressIndicator();
+          }
+          if (state is CartLoaded) {
+            bool isButtonDisabled = state.cart.products.isEmpty;
+
+            return ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                    context, isButtonDisabled ? '/' : '/checkout');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+              ),
+              child: Text(
+                'GO TO ${isButtonDisabled ? 'HOME' : 'CHECKOUT'}',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+            );
+          }
+          return const Text('Something went wrong!');
+        })
       ],
     );
   }
@@ -200,12 +251,28 @@ class OrderNowNavBar extends StatelessWidget {
                     context.read<PaymentBloc>().add(
                           CreatePaymentIntent(
                             paymentMethodId: state.checkout.paymentMethodId!,
-                            amount: state.checkout.total,
+                              amount: state.checkout.total
                           ),
                         );
                   },
                   child: Text(
                     'Pay with Credit Card',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                );
+              }
+              if (state.checkout.paymentMethod == PaymentMethod.cod) {
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    context
+                        .read<CheckoutBloc>()
+                        .add(const ConfirmCheckout(false));
+                  },
+                  child: Text(
+                    'Pay with COD',
                     style: Theme.of(context).textTheme.headline4,
                   ),
                 );
@@ -228,7 +295,8 @@ class OrderNowNavBar extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, '/payment-selection');
                   },
-                  style: ElevatedButton.styleFrom(primary: Colors.white),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
                   child: Text(
                     'CHOOSE PAYMENT',
                     style: Theme.of(context).textTheme.headline3,
@@ -236,7 +304,7 @@ class OrderNowNavBar extends StatelessWidget {
                 );
               }
             } else {
-              return Text('Something went wrong');
+              return const Text('Something went wrong');
             }
           },
         ),
